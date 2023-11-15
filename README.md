@@ -180,6 +180,7 @@ Design iterations of main views.
 
 1. The design should reflect the overall concept and goals of your project.
 1. Create your design iterations with [Figma](https://figma.com), or use the Bootstrap template included in this repo `designs/1.psd`. **Show your work!** Do not delete previous versions—we want to see your progress as you iterate and improve your designs.
+1. Include a [Moodboard](https://www.google.com/search?q=web+design+moodboard) showing your research into how others have designed solutions to similar information and design problems
 1. Create multiple iterations of each different page / view your app.
 1. As per class [presentations](https://docs.google.com/presentation/d/1BiIHVEQjmIb2k2vB6N3x1g_S3KSLyZq2YCniq1ONjg8/edit?usp=sharing), look at relevant examples of good design to help you improve your own, then experiment and iterate!
 
@@ -245,22 +246,41 @@ Your finished project should include:
 
 1. When finished, push, publish, and post all deliverables to Moodle per documentation in the Assignments.
 
-<!-- 
 
-EXAMPLES
 
-2022
-https://limilano.github.io/dig245-final/
-https://katehynes.github.io/dig245-final/
-https://zoearen.github.io/dig245-final/
-https://skyyylaw.github.io/dig245-final/
 
-2021
-https://anclaire.github.io/dig245-final/home.html
-https://cha1hee.github.io/dig245-final/
-https://casigl.github.io/dig245-final/ - not functional
 
--->
+
+<details>
+<summary>Past examples</summary>
+  
+- 2022
+    - Lillian [Social Mediator](https://limilano.github.io/dig245-final/)
+    - Kate [More Than a Number](https://katehynes.github.io/dig245-final/) ([video](https://www.youtube.com/watch?v=DVVDX7hq6ew&list=PLhpnnpt3tw-RiiFG9p_OJgjAfH-6kyAIK&index=3))
+    - Zoe [Diagnostic Survey Simulator](https://zoearen.github.io/dig245-final/) [video](https://www.youtube.com/watch?v=57j6hTeJRvA&list=PLhpnnpt3tw-RiiFG9p_OJgjAfH-6kyAIK&index=5)
+    - Bryce Match Match Match† ([video](https://www.youtube.com/watch?v=bGqOcxWUBb4&list=PLhpnnpt3tw-RiiFG9p_OJgjAfH-6kyAIK&index=4))
+    - Ethan [Demystify](https://etgeorge.github.io/dig245-final)
+    - Francisco [Art? or Not!](https://francduartemar.github.io/dig245-final)
+    - Gaby [Color Generator](https://gasanclimenti.github.io/dig245-final) ([video](https://www.youtube.com/watch?v=2-phHrgeIig&list=PLhpnnpt3tw-RiiFG9p_OJgjAfH-6kyAIK))
+    - Sky [Tennis (Aaronson Oracle)](https://skyyylaw.github.io/dig245-final/)
+    - Pauline [Malicious Email Reporter](https://cha1hee.github.io/dig245-final/)
+    - Drew [Hound](https://github.com/drew-beamer/dig245-final)†
+- 2021
+    - Annelise [Epilogues](https://anclaire.github.io/dig245-final/home.html)
+    - Caroline [Dream-Bot](https://casigl.github.io/dig245-final/)† ([video](https://www.youtube.com/watch?v=RGzRBdYQbGo&list=PLhpnnpt3tw-RiiFG9p_OJgjAfH-6kyAIK&index=6)) 
+    - Henry [Davidson College Scavenger Hunt](https://hehowell.github.io/Davidson-College-Scavenger-Hunt)
+- 2020
+    - Stine [The Scroll Calculator](https://github.com/stinilso/final-project)
+
+
+
+†not currently live
+
+
+</details>
+
+
+
 
 
 
