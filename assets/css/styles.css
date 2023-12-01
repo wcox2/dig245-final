@@ -14,6 +14,22 @@ body {
   overflow: hidden;
 }
 
+#app-header{
+  background-color:rgb(21, 21, 21);
+  color: white;
+}
+
+.header-buttons{
+  display: flex;
+}
+
+.home-button{
+  width: 50%;
+  background-color: rgb(21, 21, 21);
+  color: white;
+  border: none;
+}
+
 .post {
   border-bottom: 1px solid #ddd;
   padding: 15px;
@@ -39,14 +55,27 @@ body {
   display: flex;
   flex-direction: column;
 }
+.user-name-block{
+  display: flex;
+}
+
+.name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  
+}
 
 .user-name {
-  font-weight: bold;
+  color: #b0b0b0;
   margin-bottom: 5px;
 }
 
 .post-content {
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .post-image {

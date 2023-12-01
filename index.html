@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- meta tags, links to css, etc. -->
@@ -10,61 +10,77 @@
 </head>
 
 <body>
-    <!-- <div class="container-fluid">
-        <div class="row fixed-top bg-light">
-            <div class="col-md-12">
-                <h1 class="p-3">Your Fixed Header</h1>
-            </div>
-        </div>
-    </div> -->
 
-    <div class="container fluid">
-        <div class="row fixed-top bg-light" style="height: 100px; width: 100%;">
-            <div class="col-md-12">
-                <h1 class="p-3">Your Fixed Header</h1>
+    <div class="container">
+        <div class="row fixed-top d-flex justify-content-center" style="height: 100px; width: 100%;">
+            <div class="col-8 " id="app-header">
+                <h2 class="pt-3 d-flex justify-content-center">ShareSpace</h2>
+
+                <div class="header-buttons d-flex justify-content-center" style="width: 100%;">
+                    <button class="home-button" onclick="showHome()"> Home </button>
+                    <button class="home-button" onclick="showProfile()">My Profile</button>
+                </div>
             </div>
         </div>
 
-        <div class="row" style="padding: 100px; width: 100%;">
+        <div class="row d-flex justify-content-center" style="padding: 100px; width: 100%;">
             <div class="col-12">
-                <div id="recommend-posts" class="mt-3">
+                <div id="home-content">
+                    <!-- Home content goes here -->
+                    <div id="recommend-posts" class="mt-3"></div>
+                    <div id="recommended-info-container" class="mt-3"></div>
+                    <div id="app" class="mt-3"></div>
                 </div>
 
-                <div id="recommended-info-container" class="mt-3"></div>
-
-                <div id="app" class="mt-3"></div>
+                <div id="profile-content" class="mt-3" style="color: white;">
+                    <!-- Profile content goes here -->
+                    <h3>My Profile Page</h3>
+                    <!-- Add your profile content here -->
+                </div>
             </div>
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/faker@5.5.3/dist/faker.min.js"></script>
     <script>
-
-        
         var userInteractions = [];
         var categoryInteractionCounts = {};
         var postDict = {};
 
         var recommendedGenerated = false;
 
+        function scrollToTopAndRefresh() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }
+
+        function showHome() {
+            document.getElementById('home-content').style.display = 'block';
+            document.getElementById('profile-content').style.display = 'none';
+        }
+
+        function showProfile() {
+            document.getElementById('home-content').style.display = 'none';
+            document.getElementById('profile-content').style.display = 'block';
+        }
+
         function handleScroll() {
-            // Check if the user has scrolled to the bottom
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                // If not already generated, generate recommended content
                 if (!recommendedGenerated) {
                     recommendPosts();
                     recommendedGenerated = true;
                 }
             } else {
-                // Reset the flag if the user scrolls back up
                 recommendedGenerated = false;
             }
         }
 
-        // Attach the handleScroll function to the window's scroll event
         window.onscroll = handleScroll;
-
 
         function handleInteraction(postId, action, category) {
             const interaction = {
@@ -74,10 +90,8 @@
                 timestamp: new Date().toLocaleString()
             };
 
-            // Log the interaction to the console (you can modify this to store interactions)
             console.log(`User performed ${action} on post ${postId} at ${interaction.timestamp}`);
 
-            // Store the interaction in the userInteractions array
             userInteractions.push(interaction);
 
             if (category in categoryInteractionCounts) {
@@ -85,60 +99,38 @@
             } else {
                 categoryInteractionCounts[category] = 1;
             }
-
-            // Update UI or perform other actions as needed
-            
         }
 
         function updateInteractionUI(topCategory) {
             const interactionsContainer = document.getElementById('recommended-info-container');
             interactionsContainer.innerHTML = '<h2>User Info</h2>';
 
-            // Display each interaction in the UI
             const interactionElement = document.createElement('div');
             interactionElement.textContent = `Your most recommended category is ${topCategory}`;
             interactionsContainer.appendChild(interactionElement);
         }
 
-        // Example JavaScript functions to handle button clicks
         function likePost(postId) {
             const likeCountElement = document.querySelector(`#app .post:nth-child(${postId}) .like-count`);
             let likeCount = parseInt(likeCountElement.textContent) || 0;
             likeCount++;
             likeCountElement.textContent = likeCount;
 
-            // Log the like interaction
             handleInteraction(postId, 'like', postDict[postId]);
         }
 
         function commentPost(postId) {
-            // Add your logic for handling comments
             console.log(`Commenting on post ${postId}`);
-
-            // Log the comment interaction
             handleInteraction(postId, 'comment', postDict[postId]);
         }
 
         function sharePost(postId) {
-            // Add your logic for handling shares
             console.log(`Sharing post ${postId}`);
-
-            // Log the share interaction
             handleInteraction(postId, 'share', postDict[postId]);
         }
 
-        // function showInteractions(){
-        //     for (let i = 0; i < userInteractions.length; i++){
-        //         console.log("si", userInteractions[i]);
-        //         updateInteractionUI();
-        //     }
-        // }
-
         function createPosts(n, category) {
             const postsContainer = document.getElementById('app');
-
-            console.log(createPosts.arguments.length);
-
             postCategory = category || faker.animal.type();
 
             for (let i = 0; i < n; i++) {
@@ -149,11 +141,13 @@
                 const userHeader = document.createElement('div');
                 userHeader.classList.add('post-header');
                 userHeader.innerHTML =
-                `
+                    `
                     <img src="assets/img/9131529.png" class="user-avatar">
                     <div class="user-info">
-                        <div class="user-name">${userName}</div>
-                        <div class="user-name">@${faker.internet.userName(userName)}</div>
+                        <div class="user-name-block">
+                            <div class="name" style="padding-right:5px;">${userName} </div>
+                            <div class="user-name">@${faker.internet.userName(userName)}</div>
+                        </div>
                         <div class="post-time">Just now</div> 
                     </div>
                 `;
@@ -163,8 +157,6 @@
                 postContent.innerHTML = `
                 <img src='http://loremflickr.com/570/521/${postCategory}?=${Math.random()}'>
                 <p>${faker.lorem.sentences(2)}</p>`;
-
-                //faker.image.urlLoremFlickr({ category: 'animals' })
 
                 const postButtons = document.createElement('div');
                 postButtons.classList.add('post-buttons');
@@ -185,72 +177,52 @@
                 postElement.appendChild(postContent);
                 postElement.appendChild(postButtons);
                 postsContainer.appendChild(postElement);
-                postDict[i+1] = postCategory;
+                postDict[i + 1] = postCategory;
             }
         }
 
-
-        // Function to calculate category interaction counts
         function calculateCategoryCounts() {
             return categoryInteractionCounts;
         }
-                // Function to recommend new posts based on category interaction counts
+
         function recommendPosts() {
-            if(userInteractions.length == 0){
+            if (userInteractions.length == 0) {
                 createPosts(10);
-            }
-            
-            else{
+            } else {
                 const postsContainer = document.getElementById('app');
                 postsContainer.innerHTML = '';
                 const categoryCounts = calculateCategoryCounts();
 
-                console.log(categoryCounts);
-
-                // Sort categories by interaction count in descending order
                 const sortedCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
 
-                // Select the top category
                 const topCategory = sortedCategories[0];
                 console.log(`Recommended posts based on top category '${topCategory}':`);
-                if (sortedCategories.length > 1){
-
+                if (sortedCategories.length > 1) {
                     const secondCategory = sortedCategories[1];
                     console.log(`Recommended posts based on second category '${secondCategory}':`);
-
-                } 
+                }
 
                 console.log(sortedCategories);
 
-                // Use the top category to recommend new posts (you can customize this part)
                 console.log(`Recommended posts based on top category '${topCategory}':`);
-                // for (let i = 0; i < recommendedPosts.length; i++) {
-                //     const postCategory = postDict[i + 1];
-                //     if (postCategory === topCategory) {
-                //         console.log(`- Post ${i + 1}: ${postCategory}`);
-                //     }
-                // }
 
                 let numRecommended = Math.floor((categoryCounts[topCategory] / userInteractions.length) * 10);
                 console.log(numRecommended, 'numRecommended');
                 console.log(userInteractions.length, 'userintlen');
                 console.log(categoryCounts[topCategory], 'count');
-                
 
-                if(numRecommended < 7){
+                if (numRecommended < 7) {
                     createPosts(numRecommended, topCategory);
                     createPosts(10 - numRecommended);
-                }
-                else{
+                } else {
                     createPosts(7, topCategory);
                     createPosts(3);
                 }
 
                 updateInteractionUI(topCategory);
             }
-            
         }
-        createPosts(10);
+        recommendPosts();
     </script>
 </body>
 </html>
