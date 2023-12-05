@@ -14,7 +14,7 @@
 
     <div class="container">
         <div class="row fixed-top d-flex justify-content-center" style="height: 100px; width: 100%;">
-            <div class="col-10 " id="app-header">
+            <div class="col-10 pt-3" id="app-header">
                 <h2 class=" d-flex justify-content-center">ShareSpace</h2>
                     <div class="info">
                         <button class="info-button" style="position: absolute; right: 0; top: 10px;" onclick="infoPopup()">?</button>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="row d-flex justify-content-center" style="padding: 50px; padding-top: 100px; width: 100%;">
-            <!-- <div class="col-12"> -->
+            <div class="col-12">
                 <div id="home-content">
                     <!-- Home content goes here -->
                     <div id="recommend-posts" class="mt-3"></div>
@@ -40,11 +40,12 @@
                     
                     <!-- <h3>My Profile Page</h3> -->
                     <div id="profile-text" class="mt-3"></div>
-                    <div id="chart-contianer" class=" d-flex justify-content-center">
+                    <div id="chart-container" class=" d-flex justify-content-center">
                         <canvas id="interactionChart" style="width:800px; height:800px;"></canvas>
                     </div>
+                    <div id="category-info" class="mt-3"></div>
                 </div>
-            <!-- </div> -->
+            </div>
         </div>
     </div>
 
@@ -165,20 +166,27 @@
 
             const sortedCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
             topCategory = sortedCategories[0];
+            secondCategory = sortedCategories[1];
 
             const postsContainer = document.getElementById('app');
+            const categoryInfo = document.getElementById('category-info');
+            categoryInfo.innerHTML = '';
             const profileView = document.getElementById('profile-text');
             profileView.innerHTML = '';
             const profileContent = document.createElement('h4');
+            const categoryInfoText = document.createElement('h4');
             if (userInteractions.length > 0){
 
-                profileContent.innerHTML = `You have interacted with a post ${userInteractions.length} times. Your most popular post category is ${topCategory}. You will be shown more posts from this category. Interact with other types of posts to see how it affects the content you are recommended.`;
+                profileContent.innerHTML = `You have interacted with a post ${userInteractions.length} times. Your most popular categories are shown below.`;
+                categoryInfoText.innerHTML = `The algorithm will mostly recommend content that falls into your top two categories, ${topCategory} and ${secondCategory}, but it will also recommend some posts from random categories so you can still explore new content. This is a simplified version of a social media algorithm that was put together in about a month. Big companies such as Facebook and Instagram pour tons of money and time into developing and optimizing their algorithms. If you would like to learn more about these algorithms scroll down below.`;
+                categoryInfo.appendChild(categoryInfoText);
 
             }else{
                 profileContent.innerHTML = `You have interacted with a post ${userInteractions.length} times. Interact with posts to see how it affects the content you are recommended.`;
             }
             
             profileView.appendChild(profileContent);
+            
             renderInteractionChart(categoryCounts);
         }
 
@@ -187,7 +195,7 @@
             let likeCount = parseInt(likeCountElement.textContent) || 0;
             likeCount++;
             likeCountElement.textContent = likeCount;
-
+            likeCountElement.style.color = '#3498db';
             handleInteraction(postId, 'like', postDict[postId]);
         }
 
@@ -197,8 +205,11 @@
         }
 
         function sharePost(postId) {
+            const shareCountElement = document.querySelector(`#app .post:nth-child(${postId}) #share-button`);
             console.log(`Sharing post ${postId}`);
             handleInteraction(postId, 'share', postDict[postId]);
+            shareCountElement.style.color = '#3498db';
+
         }
 
         function createPosts(n, category) {
@@ -234,11 +245,11 @@
                 postButtons.classList.add('post-buttons');
                 postButtons.innerHTML = `
                     <div class="button" onclick="likePost(${i + 1})">
-                        <span class="icon">👍</span>
-                        <span class="like-count">0</span>
+                        <span class="icon" style="font-size: large;">⭐</span>
+                        <span class="like-count" style="font-size: large;">0</span>
                     </div>
                     <div class="button" onclick="sharePost(${i + 1})">
-                        <span class="icon">🔄</span> Share
+                        <span class="icon" id="share-button" style="font-size: large;">🔄 Share</span> 
                     </div>
                 `;
 
