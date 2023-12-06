@@ -12,11 +12,16 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;
+  font-size: large;
 }
 
 #app-header{
   background-color:rgb(21, 21, 21);
   color: white;
+}
+
+#more-info{
+  font-size: large;
 }
 
 .header-buttons{

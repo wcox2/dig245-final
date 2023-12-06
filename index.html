@@ -23,6 +23,7 @@
                 <div class="header-buttons d-flex justify-content-center" style="width: 100%;">
                     <button class="home-button" onclick="showHome()"> Home </button>
                     <button class="home-button" onclick="showProfile()">My Profile</button>
+                    <button class="home-button" onclick="showMoreInfo()">More Info</button>
                 </div>
             </div>
         </div>
@@ -44,6 +45,52 @@
                         <canvas id="interactionChart" style="width:800px; height:800px;"></canvas>
                     </div>
                     <div id="category-info" class="mt-3"></div>
+                </div>
+                <div id="more-info" class="mt-3" style="color: white;">
+                    <div id="additional-info" class="mt-3">
+                        <h2>Why is this Important?</h2>
+                        <p>
+                            Understanding social media algorithms is crucial because they play a significant role in shaping the information landscape, influencing the spread of content, and impacting individuals and societies in various ways. Here are several reasons why it's important to know about social media algorithms and their implications:
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>Content Distribution:</strong> Social media algorithms determine what content users see on their feeds. They prioritize certain posts based on factors like relevance, engagement, and user behavior. This can shape public discourse by amplifying certain viewpoints while suppressing others.
+                            </li>
+                            <li>
+                                <strong>Filter Bubbles and Echo Chambers:</strong> Algorithms often show users content that aligns with their existing beliefs and preferences. This can create filter bubbles and echo chambers, limiting exposure to diverse perspectives. People may be less likely to encounter information that challenges their views, contributing to polarization and reinforcing existing biases.
+                            </li>
+                            <li>
+                                <strong>Fake News and Misinformation:</strong> Social media algorithms can inadvertently facilitate the spread of fake news and misinformation. False or sensationalized content that generates high engagement may be prioritized, leading to its widespread dissemination before fact-checking can catch up. This can have serious consequences for public opinion and decision-making.
+                            </li>
+                            <li>
+                                <strong>Algorithmic Bias:</strong> Algorithms can inadvertently perpetuate and amplify biases present in society. If the training data used to develop these algorithms contains biases, the algorithms themselves may exhibit biased behavior. This can result in discriminatory outcomes, affecting certain groups more than others.
+                            </li>
+                            <li>
+                                <strong>Manipulation and Exploitation:</strong> Understanding social media algorithms is essential for recognizing and addressing attempts to manipulate public opinion or exploit the platform for malicious purposes. This includes activities such as coordinated disinformation campaigns, spreading propaganda, or conducting influence operations.
+                            </li>
+                            <li>
+                                <strong>Impact on Mental Health:</strong> Algorithms are designed to maximize user engagement, often by showing content that elicits strong emotional reactions. This can contribute to the "attention economy," where platforms prioritize content that keeps users scrolling, potentially leading to negative effects on mental health, such as anxiety, depression, or addiction.
+                            </li>
+                            <li>
+                                <strong>Personalization and Privacy Concerns:</strong> Social media algorithms use personal data to personalize content recommendations. While this can enhance user experience, it raises concerns about privacy and the extent to which platforms track and use individual user data for advertising and other purposes.
+                            </li>
+                            <li>
+                                <strong>Regulatory and Ethical Considerations:</strong> As social media platforms become powerful influencers in public discourse, there is a growing need for regulatory oversight and ethical guidelines to ensure responsible algorithmic behavior. Understanding these algorithms is crucial for policymakers, researchers, and the public to advocate for fair and transparent practices.
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <a href="https://www.socialpilot.co/blog/social-media-algorithm#:~:text=A%20social%20media%20algorithm%20is,account%20by%20social%20media%20platforms.">Understanding Social Media Algorithms</a>
+                            </li>
+                            <li>
+                                <a href="https://www.scientificamerican.com/article/social-media-algorithms-warp-how-people-learn-from-each-other/">Social Media Algorithms Warp How People Learn From Each Other</a>
+                            </li>
+                            <li>
+                                <a href="https://wtvi.pbslearningmedia.org/resource/how-social-algorithms-create-echo-chambers-video/social-media-algorithms-mediawise-student-reporting-labs/">How Social Media Algorithms Create Echo Chambers</a>
+                            </li>
+                         </ul>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,13 +170,23 @@
 
         function showHome() {
             document.getElementById('home-content').style.display = 'block';
+            document.getElementById('more-info').style.display = 'none';
             document.getElementById('profile-content').style.display = 'none';
             scrollToTopAndRefresh()
         }
 
         function showProfile() {
             document.getElementById('home-content').style.display = 'none';
+            document.getElementById('more-info').style.display = 'none';
             document.getElementById('profile-content').style.display = 'block';
+            const categories = calculateCategoryCounts();
+            updateInteractionUI(categories);
+        }
+
+        function showMoreInfo() {
+            document.getElementById('home-content').style.display = 'none';
+            document.getElementById('profile-content').style.display = 'none';
+            document.getElementById('more-info').style.display = 'block';
             const categories = calculateCategoryCounts();
             updateInteractionUI(categories);
         }
