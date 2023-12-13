@@ -125,6 +125,7 @@
         document.getElementById('more-info').style.display = 'none';
         var userInteractions = [];
         var likedPostList = new Set();
+        var sharePostList = new Set();
         var categoryInteractionCounts = {};
         var postDict = {};
         var topCategory = '';
@@ -310,8 +311,28 @@
 
         function sharePost(postId) {
             const shareCountElement = document.getElementById(`share-${postId}`);
-            handleInteraction(postId, 'share', postDict[postId]);
-            shareCountElement.style.color = '#3498db';
+            if(!(sharePostList.has(postId))){
+                handleInteraction(postId, 'share', postDict[postId]);
+                shareCountElement.style.color = '#3498db';
+                sharePostList.add(postId);
+            }else {
+                console.log('here')
+                amountOfInteractions--;
+                sharePostList.delete(postId);
+                shareCountElement.style.color = 'white';
+                const tupleToRemove = ['share', postDict[postId], postId];
+                const index = userInteractions.findIndex(item => 
+                    item[0] === tupleToRemove[0] &&
+                    item[1] === tupleToRemove[1] &&
+                    item[2] === tupleToRemove[2]
+                );
+
+                if (index > -1) {
+                    userInteractions.splice(index, 1);
+                }
+
+                categoryInteractionCounts[postDict[postId]]--;
+            }
 
         }
 
