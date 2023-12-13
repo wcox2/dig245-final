@@ -87,10 +87,10 @@ body {
 }
 
 .profile-picture {
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 19%;
 }
 
 .profile-info {
@@ -105,7 +105,7 @@ body {
 
 .following-count,
 .follower-count {
-  margin-right: 10px;
+  margin-right: 20%;
 }
 
 
@@ -159,3 +159,22 @@ canvas {
   display: block;
   width: 800px;
 }
+
+#additional-info{
+  background-color: black;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 600px){
+	.following-count,
+  .follower-count {
+    margin-right: 10px;
+  }
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+	}

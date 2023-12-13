@@ -37,7 +37,7 @@
                     <div id="app" class="mt-3"></div>
                 </div>
 
-                <div id="profile-content" class="mt-3" style="color: white;">
+                <div id="profile-content" class="mt-3" style="color: white; background-color: black; padding: 20px; border-radius: 10px;">
                     
                     <div id="profile-container">
                         <div class="profile-block mb-4">
@@ -45,10 +45,10 @@
                             <div class="profile-info">
                               <div class="follow-counts">
                                 <div class="following-count">
-                                  <h5>Following: 898</h5>
+                                  <h4>898 Following</h4>
                                 </div>
                                 <div class="follower-count">
-                                  <h5>Followers: 898</h5>
+                                  <h4>1000 Followers</h4>
                                 </div>
                               </div>
                             </div>
@@ -124,9 +124,12 @@
         document.getElementById('profile-content').style.display = 'none';
         document.getElementById('more-info').style.display = 'none';
         var userInteractions = [];
+        var likedPostList = new Set();
         var categoryInteractionCounts = {};
         var postDict = {};
         var topCategory = '';
+        var amountOfInteractions = 0;
+        var numberOfRefresh = 0;
 
         var likedPost = false;
 
@@ -215,12 +218,12 @@
         }
 
         window.onscroll = function(ev) {
-        if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-            if(document.getElementById('profile-content').style.display == 'none'){
-                console.log("you're at the bottom of the page");
+            if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight -2) {
+                if(!(document.getElementById('home-content').style.display == 'none')){
+                numberOfRefresh++;
                 recommendPosts();
             }
-        }
+            }
         };
 
         function handleInteraction(postId, action, category) {
@@ -234,6 +237,7 @@
             // console.log(`User performed ${action} on post ${postId} at ${interaction.timestamp}`);
 
             userInteractions.push(interaction);
+            amountOfInteractions++;
 
             if (category in categoryInteractionCounts) {
                 categoryInteractionCounts[category]++;
@@ -257,7 +261,7 @@
             const categoryInfoText = document.createElement('h4');
             if (userInteractions.length > 0){
 
-                profileContent.innerHTML = `You have interacted with a post ${userInteractions.length} times. Your most popular categories are shown below.`;
+                profileContent.innerHTML = `You have interacted with a post ${amountOfInteractions} times. Your most popular categories are shown below.`;
                 categoryInfoText.innerHTML = `The algorithm will mostly recommend content that falls into your top two categories, ${topCategory} and ${secondCategory}, but it will also recommend some posts from random categories so you can still explore new content. This is a simplified version of a social media algorithm that was put together in about a month. Big companies such as Facebook and Instagram pour tons of money and time into developing and optimizing their algorithms. If you would like to learn more about these algorithms scroll down below.`;
                 categoryInfo.appendChild(categoryInfoText);
 
@@ -271,38 +275,41 @@
         }
 
         function likePost(postId) {
-            const likeCountElement = document.querySelector(`#app .post:nth-child(${postId}) .like-count`);
+            // document.documentElement(`#app .post:nth-child(${postId})`);
+            const likeCountElement = document.getElementById(`like-${postId}`);
+            
             let likeCount = parseInt(likeCountElement.textContent) || 0;
-            if(!likedPost){
+
+            if (!likedPostList.has(postId)) {
                 likeCount++;
-                likedPost = true;
+                likedPostList.add(postId);
                 likeCountElement.textContent = likeCount;
                 likeCountElement.style.color = '#3498db';
                 handleInteraction(postId, 'like', postDict[postId]);
-                // console.log(userInteractions.size())
-            }else{
+                
+            } else {
                 likeCount--;
-                likedPost = false;
+                amountOfInteractions--;
+                likedPostList.delete(postId);
                 likeCountElement.textContent = likeCount;
                 likeCountElement.style.color = 'white';
-                const index = userInteractions.indexOf((postId, 'like', postDict[postId]));
-                if (index > -1) { // only splice array when item is found
-                    userInteractions.splice(index, 1); // 2nd parameter means remove one item only
-                }
-                categoryInteractionCounts[postDict[postId]]--;
-                userInteractions.pop();
-            }
-            
-        }
+                const tupleToRemove = ['like', postDict[postId], postId];
+                const index = userInteractions.findIndex(item => 
+                    item[0] === tupleToRemove[0] &&
+                    item[1] === tupleToRemove[1] &&
+                    item[2] === tupleToRemove[2]
+                );
 
-        function commentPost(postId) {
-            console.log(`Commenting on post ${postId}`);
-            handleInteraction(postId, 'comment', postDict[postId]);
+                if (index > -1) {
+                    userInteractions.splice(index, 1);
+                }
+
+                categoryInteractionCounts[postDict[postId]]--;
+            }
         }
 
         function sharePost(postId) {
-            const shareCountElement = document.querySelector(`#app .post:nth-child(${postId}) #share-button`);
-            console.log(`Sharing post ${postId}`);
+            const shareCountElement = document.getElementById(`share-${postId}`);
             handleInteraction(postId, 'share', postDict[postId]);
             shareCountElement.style.color = '#3498db';
 
@@ -340,12 +347,12 @@
                 const postButtons = document.createElement('div');
                 postButtons.classList.add('post-buttons');
                 postButtons.innerHTML = `
-                    <div class="button" onclick="likePost(${i + 1})">
+                    <div class="button" onclick="likePost(${i + 1 * (numberOfRefresh * 10)})">
                         <span class="icon" style="font-size: large;">⭐</span>
-                        <span class="like-count" style="font-size: large;">${Math.floor(Math.random() * 10000)}</span>
+                        <span class="like-count" id="like-${i + 1 * (numberOfRefresh * 10)}" style="font-size: large;">${Math.floor(Math.random() * 10000)}</span>
                     </div>
-                    <div class="button" onclick="sharePost(${i + 1})">
-                        <span class="icon" id="share-button" style="font-size: large;">🔄 Share</span> 
+                    <div class="button" onclick="sharePost(${i + 1 * (numberOfRefresh * 10)})">
+                        <span class="icon share-count" id="share-${i + 1 * (numberOfRefresh * 10)}" style="font-size: large;">🔄 Share</span> 
                     </div>
                 `;
 
@@ -353,7 +360,7 @@
                 postElement.appendChild(postContent);
                 postElement.appendChild(postButtons);
                 postsContainer.appendChild(postElement);
-                postDict[i + 1] = postCategory;
+                postDict[i + 1 * (numberOfRefresh * 10)] = postCategory;
             }
         }
 
@@ -376,20 +383,20 @@
                 const sortedCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
 
                 topCategory = sortedCategories[0];
-                console.log(`Recommended posts based on top category '${topCategory}':`);
+                // console.log(`Recommended posts based on top category '${topCategory}':`);
                 if (sortedCategories.length > 1) {
                     const secondCategory = sortedCategories[1];
-                    console.log(`Recommended posts based on second category '${secondCategory}':`);
+                    // console.log(`Recommended posts based on second category '${secondCategory}':`);
                 }
 
-                console.log(sortedCategories);
+                // console.log(sortedCategories);
 
-                console.log(`Recommended posts based on top category '${topCategory}':`);
+                // console.log(`Recommended posts based on top category '${topCategory}':`);
 
                 let numRecommended = Math.floor((categoryCounts[topCategory] / userInteractions.length) * 10);
-                console.log(numRecommended, 'numRecommended');
-                console.log(userInteractions.length, 'userintlen');
-                console.log(categoryCounts[topCategory], 'count');
+                // console.log(numRecommended, 'numRecommended');
+                // console.log(userInteractions.length, 'userintlen');
+                // console.log(categoryCounts[topCategory], 'count');
 
                 if (numRecommended < 7) {
                     createPosts(numRecommended, topCategory);
